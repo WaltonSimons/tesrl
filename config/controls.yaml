@@ -1,0 +1,13 @@
+---
+up:
+  - KEY_UP
+  - KEY_KP8
+down:
+  - KEY_DOWN
+  - KEY_KP2
+left:
+  - KEY_LEFT
+  - KEY_KP4
+right:
+  - KEY_RIGHT
+  - KEY_KP6

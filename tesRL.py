@@ -1,11 +1,14 @@
 import tcod
 from object import *
 from maps import *
+from game import Game
 
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50
 
 tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'TESRL', False)
+
+game = Game()
 
 objects = list()
 level_map = Map(50, 80)
@@ -18,16 +21,20 @@ objects.append(player)
 
 
 def handle_keys():
-    if tcod.console_is_key_pressed(tcod.KEY_UP):
+    key = tcod.console_wait_for_keypress(True)
+    key = key.vk if key.vk is not tcod.KEY_CHAR else chr(key.c)
+    if key == tcod.KEY_ESCAPE:
+        pass
+    if key in game.controls.actions['up']:
         player.move(0, -1)
 
-    elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
+    elif key in game.controls.actions['down']:
         player.move(0, 1)
 
-    elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
+    elif key in game.controls.actions['left']:
         player.move(-1, 0)
 
-    elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
+    elif key in game.controls.actions['right']:
         player.move(1, 0)
 
 
@@ -48,8 +55,4 @@ while not tcod.console_is_window_closed():
     tcod.console_flush()
     for o in objects:
         o.clear()
-    key = tcod.console_wait_for_keypress(True)
     handle_keys()
-    key = tcod.console_check_for_keypress()
-    if key.vk == tcod.KEY_ESCAPE:
-        break
