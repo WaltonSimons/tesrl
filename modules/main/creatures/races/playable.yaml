@@ -1,0 +1,10 @@
+---
+race_presets:
+- name: "Imperial"
+  agility: 30
+  endurance: 40
+  intelligence: 40
+  luck: 40
+  personality: 50
+  strength: 40
+  willpower: 40

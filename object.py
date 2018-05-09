@@ -8,9 +8,15 @@ class Object:
         self.char = character[0]
         self.color = color
         self.components = dict()
+        self.level_map = None
 
     def get_component(self, component):
         return self.components[component] if component in self.components else None
+
+    def move(self, dx, dy):
+        if not self.level_map.tile_map[self.x + dx][self.y + dy].block:
+            self.x += dx
+            self.y += dy
 
     def draw(self):
         tcod.console_set_default_foreground(0, self.color)
@@ -21,7 +27,8 @@ class Object:
 
 
 class Terrain:
-    def __init__(self, color, block, block_sight):
+    def __init__(self, name, color, block, block_sight):
+        self.name = name
         self.color = color
         self.block = block
         self.block_sight = block_sight

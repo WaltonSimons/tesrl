@@ -1,5 +1,6 @@
 class Creature:
-    def __init__(self, agility, endurance, intelligence, luck, personality, strength, willpower):
+    def __init__(self, name, agility, endurance, intelligence, luck, personality, strength, willpower):
+        self.name = name
         self.agility = agility
         self.endurance = endurance
         self.intelligence = intelligence
@@ -14,7 +15,7 @@ class Creature:
         self.max_magicka = self.get_max_magicka()
         self.magicka = self.max_magicka
         self.max_fatigue = self.get_fatigue()
-        self.fatigue = self.fatigue
+        self.fatigue = self.max_fatigue
         self.encumbrance = self.get_encumbrance()
         self.inventory = list()
         self.loot = list()

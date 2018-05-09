@@ -13,20 +13,23 @@ level_map = Map(50, 80)
 player = Object('@')
 player.x = 40
 player.y = 25
+player.level_map = level_map
 objects.append(player)
+
 
 def handle_keys():
     if tcod.console_is_key_pressed(tcod.KEY_UP):
-        player.y -= 1
+        player.move(0, -1)
 
     elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
-        player.y += 1
+        player.move(0, 1)
 
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
-        player.x -= 1
+        player.move(-1, 0)
 
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
-        player.x += 1
+        player.move(1, 0)
+
 
 def render_level():
     for y in range(level_map.height):

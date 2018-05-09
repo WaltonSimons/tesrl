@@ -1,0 +1,14 @@
+---
+tiles:
+- name: Floor
+  color: light_gray
+  block: false
+  block_sight: false
+- name: Wall
+  color: gray
+  block: true
+  block_sight: true
+- name: Water
+  color: azure
+  block: true
+  block_sight: false
