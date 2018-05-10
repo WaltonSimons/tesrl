@@ -18,7 +18,6 @@ def load_tiles():
         block = raw_tile.get('block')
         block_sight = raw_tile.get('block_sight')
         tiles[name] = (Terrain(name, color, block, block_sight))
-    load_race_presets()
     return tiles
 
 

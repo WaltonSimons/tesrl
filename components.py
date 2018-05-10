@@ -17,6 +17,7 @@ class Creature:
         self.max_fatigue = self.get_fatigue()
         self.fatigue = self.max_fatigue
         self.encumbrance = self.get_encumbrance()
+        self.fov = self.get_fov()
         self.inventory = list()
         self.loot = list()
 
@@ -31,3 +32,6 @@ class Creature:
 
     def get_encumbrance(self):
         return 5 * self.strength
+
+    def get_fov(self):
+        return int(self.agility / 3)

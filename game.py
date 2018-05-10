@@ -5,6 +5,7 @@ import tcod
 class Game:
     def __init__(self):
         self.controls = Controls()
+        self.current_map = None
 
 
 class Controls:
@@ -23,3 +24,5 @@ class Controls:
                     key_codes.append(key_code.lower())
             res[action] = key_codes
         return res
+
+GAME = Game()
