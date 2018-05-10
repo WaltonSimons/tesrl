@@ -51,10 +51,15 @@ def render_level():
     for y in range(level_map.height):
         for x in range(level_map.width):
             visible = tcod.map_is_in_fov(game.current_map.fov_map, x, y)
-            terrain = level_map.get_tile(x, y)
-            color = terrain.color
-            if not visible:
-                color = list(map(lambda a: int(a*(0.3+level_map.fog_noise_map[x][y])), color))
+            tile = level_map.get_tile(x, y)
+            color = tile.color
+            if visible:
+                tile.visited = True
+            else:
+                if tile.visited:
+                    color = list(map(lambda a: max(min(int(a*(0.3+level_map.fog_noise_map[x][y])), 255), 0), color))
+                else:
+                    color = (max(min(int(500*level_map.fog_noise_map[x][y]), 255), 0),)*3
             tcod.console_set_char_background(0, x, y, color, tcod.BKGND_SET)
 
     for o in objects:

@@ -19,16 +19,17 @@ class Map:
         self.fov_map = self.create_fov_map()
 
     def create_empty_map(self, height, width):
-        res = [[self.tiles['Wall'] for _ in range(height)] for _ in range(width)]
+        wall = self.tiles['Wall']
+        res = [[Tile(wall, False) for _ in range(height)] for _ in range(width)]
         return res
 
     def get_tile(self, x, y):
         return self.tile_map[x][y]
 
-    def create_room(self, x1, y1, x2, y2, tile):
+    def create_room(self, x1, y1, x2, y2, terrain):
         for x in range(x1, x2 + 1):
             for y in range(y1, y2 + 1):
-                self.tile_map[x][y] = tile
+                self.tile_map[x][y] = Tile(terrain, False)
 
     def create_fov_map(self):
         fov_map = tcod.map_new(self.width, self.height)
@@ -38,5 +39,14 @@ class Map:
         return fov_map
 
     def create_fog_noise_map(self, height, width):
-        res = [[(random()*3/5) for _ in range(height)] for _ in range(width)]
+        res = [[(random()*0.02) for _ in range(height)] for _ in range(width)]
         return res
+
+class Tile:
+    def __init__(self, terrain, visited):
+        self.terrain = terrain
+        self.visited = visited
+
+    def __getattr__(self, item):
+        if hasattr(self.terrain, item):
+            return getattr(self.terrain, item)
