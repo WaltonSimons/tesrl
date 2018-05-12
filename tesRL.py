@@ -15,7 +15,7 @@ tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'TESRL', False)
 game = GAME
 
 objects = list()
-level_map = ASSETS.load_map('main', 'test', 'test')
+level_map = ASSETS.get_map('main', 'test', 'test')
 
 player = Object('@')
 player.x = 40

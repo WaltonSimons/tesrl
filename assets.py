@@ -18,7 +18,7 @@ class Assets:
     def load_assets(self):
         return self.loader.load_module('main')
 
-    def load_map(self, module, folder, name):
+    def get_map(self, module, folder, name):
         raw_meta = load(open('modules/{}/maps/{}/{}.yaml'.format(module, folder, name)))
         raw_map = open('modules/{}/maps/{}/{}.map'.format(module, folder, name))
         legend = raw_meta.get('map_info').get('legend')
