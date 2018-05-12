@@ -1,0 +1,14 @@
+---
+creature_presets:
+- name: "Base Player"
+  id: 'base_player'
+  character: '@'
+  race: "Imperial"
+  attributes:
+    agility: 40
+    endurance: 40
+    intelligence: 40
+    luck: 40
+    personality: 40
+    strength: 40
+    willpower: 40

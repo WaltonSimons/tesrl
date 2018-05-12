@@ -1,14 +1,17 @@
 ---
 tiles:
 - name: Floor
+  id: base_floor
   color: light_gray
   block: false
   block_sight: false
 - name: Wall
+  id: base_wall
   color: gray
   block: true
   block_sight: true
 - name: Water
+  id: water
   color: azure
   block: true
   block_sight: false

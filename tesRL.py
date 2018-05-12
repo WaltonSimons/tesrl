@@ -1,9 +1,11 @@
 import tcod
 from object import *
 from maps import *
-from loader import load_race_presets
 from game import GAME
+from assets import Assets
 from random import random
+
+ASSETS = Assets()
 
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50
@@ -13,12 +15,12 @@ tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'TESRL', False)
 game = GAME
 
 objects = list()
-level_map = Map(50, 80)
+level_map = ASSETS.load_map('main', 'test', 'test')
 
 player = Object('@')
 player.x = 40
 player.y = 25
-player.components['Creature'] = load_race_presets()['Imperial']
+player.components['Creature'] = ASSETS.instantiate('creatures', 'base_player')
 game.current_map = level_map
 objects.append(player)
 

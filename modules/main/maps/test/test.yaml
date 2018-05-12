@@ -1,0 +1,6 @@
+---
+map_info:
+  legend:
+    0: base_wall
+    1: base_floor
+    2: water

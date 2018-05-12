@@ -1,0 +1,11 @@
+---
+race_presets:
+- name: "Imperial"
+  attributes:
+    agility: -10
+    endurance: 0
+    intelligence: 0
+    luck: 0
+    personality: 10
+    strength: 0
+    willpower: 0

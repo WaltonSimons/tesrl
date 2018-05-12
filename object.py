@@ -28,9 +28,10 @@ class Object:
         tcod.console_put_char(0, self.x, self.y, ' ', tcod.BKGND_NONE)
 
 
-class Terrain:
-    def __init__(self, name, color, block, block_sight):
+class TileType:
+    def __init__(self, name, object_id, color, block, block_sight):
         self.name = name
+        self.object_id = object_id
         self.color = color
         self.block = block
         self.block_sight = block_sight
