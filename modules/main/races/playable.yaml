@@ -1,6 +1,7 @@
 ---
 race_presets:
-- name: "Imperial"
+- name: Imperial
+  id: imperial
   attributes:
     agility: -10
     endurance: 0

@@ -1,3 +1,4 @@
+import math
 from equipment import CreatureEquipment
 
 
@@ -18,7 +19,6 @@ class Creature:
         self.max_fatigue = self.get_fatigue()
         self.fatigue = self.max_fatigue
         self.encumbrance = self.get_encumbrance()
-        self.fov = self.get_fov()
         self.inventory = list()
         self.loot = list()
 
@@ -75,13 +75,15 @@ class Creature:
     def get_encumbrance(self):
         return 5 * self.strength
 
-    def get_fov(self):
-        return int(self.agility / 3)
+    @property
+    def fov(self):
+        return int(4 + (math.sqrt(self.agility) * (3 / 2)))
 
 
 class Modifier:
-    def __init__(self, name):
+    def __init__(self, name, object_id):
         self.name = name
+        self.object_id = object_id
         self.attributes = None
 
 

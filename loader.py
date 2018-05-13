@@ -70,6 +70,7 @@ class Loader:
                 )
                 race = components.Modifier(
                     raw_race.get('name'),
+                    raw_race.get('id')
                 )
                 race.attributes = attributes
                 races[race.name] = race

@@ -38,7 +38,7 @@ def handle_keys():
     key = tcod.console_wait_for_keypress(True)
     key = key.vk if key.vk is not tcod.KEY_CHAR else chr(key.c)
     if key == tcod.KEY_ESCAPE:
-        pass
+        player.get_component('Creature').base_attributes.agility += 1
     if key in game.controls.actions['up']:
         player.move(0, -1)
 
