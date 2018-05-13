@@ -1,0 +1,7 @@
+---
+weapons:
+- name: Iron Dagger
+  id: iron_dagger
+  value: 10
+  base_damage: 5
+  two_handed: false

@@ -4,6 +4,7 @@ from maps import *
 from game import GAME
 from assets import Assets
 from random import random
+from equipment import EquipmentSlots
 
 ASSETS = Assets()
 
@@ -23,11 +24,15 @@ player.y = 25
 player.components['Creature'] = ASSETS.instantiate('creatures', 'base_player')
 game.current_map = level_map
 objects.append(player)
+dagger = ASSETS.instantiate('items', 'iron_dagger')
+player.get_component('Creature').equip(dagger, EquipmentSlots.RIGHT_HAND)
+player.get_component('Creature').unequip(dagger)
 
 player2 = Object('@')
 player2.x = 45
 player2.y = 20
 objects.append(player2)
+
 
 def handle_keys():
     key = tcod.console_wait_for_keypress(True)
@@ -59,9 +64,9 @@ def render_level():
                 tile.visited = True
             else:
                 if tile.visited:
-                    color = list(map(lambda a: max(min(int(a*(0.3+level_map.fog_noise_map[x][y])), 255), 0), color))
+                    color = list(map(lambda a: max(min(int(a * (0.3 + level_map.fog_noise_map[x][y])), 255), 0), color))
                 else:
-                    color = (max(min(int(500*level_map.fog_noise_map[x][y]), 255), 0),)*3
+                    color = (max(min(int(500 * level_map.fog_noise_map[x][y]), 255), 0),) * 3
             tcod.console_set_char_background(0, x, y, color, tcod.BKGND_SET)
 
     for o in objects:

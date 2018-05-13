@@ -1,5 +1,6 @@
 from object import TileType, Object
 import components
+import equipment
 import tcod
 import os
 import copy
@@ -21,6 +22,9 @@ class Loader:
         print('Loading creatures')
         creatures = self.load_creatures(path)
         self.assets_dict['creatures'] = creatures
+        print('Loading items')
+        items = self.load_items(path)
+        self.assets_dict['items'] = items
 
         return self.assets_dict
 
@@ -99,3 +103,26 @@ class Loader:
                     creature.modifiers.append(copy.deepcopy(self.assets_dict['races'][race]))
                 creatures[object_id] = creature
         return creatures
+
+    def load_items(self, path):
+        path = path + 'items/'
+        item_files = os.listdir(path)
+        items = dict()
+        for item_file_name in item_files:
+            print('Loading {}'.format(item_file_name))
+            raw = load(open(path + item_file_name))
+            for raw_weapon in raw.get('weapons'):
+                object_id = raw_weapon.get('id')
+                name = raw_weapon.get('name')
+                value = raw_weapon.get('value')
+                base_damage = raw_weapon.get('base_damage')
+                two_handed = raw_weapon.get('two_handed')
+                weapon = equipment.Weapon(
+                    name,
+                    object_id,
+                    base_damage,
+                    two_handed
+                )
+                items[object_id] = weapon
+        return items
+

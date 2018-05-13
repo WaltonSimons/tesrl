@@ -1,9 +1,13 @@
+from equipment import CreatureEquipment
+
+
 class Creature:
     def __init__(self, name, character, agility, endurance, intelligence, luck, personality, strength, willpower):
         self.name = name
         self.character = character
         self.base_attributes = Attributes(agility, endurance, intelligence, luck, personality, strength, willpower)
         self.modifiers = list()
+        self.equipment = CreatureEquipment()
 
         self.max_health = self.get_max_health()
         self.health = self.max_health
@@ -17,6 +21,12 @@ class Creature:
         self.fov = self.get_fov()
         self.inventory = list()
         self.loot = list()
+
+    def equip(self, item, slot):
+        self.equipment.equip(item, slot)
+
+    def unequip(self, item):
+        self.equipment.unequip(item)
 
     def get_attribute(self, name):
         res = getattr(self.base_attributes, name)
