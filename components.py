@@ -94,8 +94,7 @@ class ModifierTypes(Enum):
 
 
 class Attributes:
-    def __init__(self, agility, endurance, intelligence, luck, personality, strength, willpower, modifier_name=None):
-        self.modifier_name = modifier_name
+    def __init__(self, agility, endurance, intelligence, luck, personality, strength, willpower):
         self.agility = agility
         self.endurance = endurance
         self.intelligence = intelligence
@@ -103,3 +102,16 @@ class Attributes:
         self.personality = personality
         self.strength = strength
         self.willpower = willpower
+
+
+class CreatureTemplate:
+    def __init__(self, object_id):
+        self.name = None
+        self.object_id = object_id
+        self.character = None
+        self.base_attributes = None
+        self.modifiers = None
+        self.equipment = None
+        self.inventory = None
+        self.loot = None
+

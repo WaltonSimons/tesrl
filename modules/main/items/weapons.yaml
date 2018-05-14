@@ -10,3 +10,8 @@ weapons:
   value: 13
   base_damage: 8
   two_handed: false
+- name: Ancient Nord War Axe
+  id: ancient_nord_war_axe
+  value: 15
+  base_damage: 9
+  two_handed: false

@@ -77,7 +77,7 @@ class Loader:
                     components.ModifierTypes(modifier_type)
                 )
                 modifier.attributes = attributes
-                modifiers[modifier.name] = modifier
+                modifiers[modifier.object_id] = modifier
         return modifiers
 
     def load_creatures(self, path):
@@ -87,29 +87,32 @@ class Loader:
         for creature_file_name in creature_files:
             print('Loading {}'.format(creature_file_name))
             raw = load(open(path + creature_file_name))
-            for raw_creature in raw.get('creature_presets'):
+            for raw_creature in raw.get('creatures'):
                 object_id = raw_creature.get('id')
                 name = raw_creature.get('name')
-                race = raw_creature.get('race')
                 character = raw_creature.get('character')
                 raw_attributes = raw_creature.get('attributes')
-                attributes = components.Attributes(
-                    raw_attributes.get('agility', 0),
-                    raw_attributes.get('endurance', 0),
-                    raw_attributes.get('intelligence', 0),
-                    raw_attributes.get('luck', 0),
-                    raw_attributes.get('personality', 0),
-                    raw_attributes.get('strength', 0),
-                    raw_attributes.get('willpower', 0)
-                )
-                creature = components.Creature(
-                    name,
-                    character,
-                    attributes,
-                )
-                if race in self.assets_dict['modifiers']:
-                    creature.modifiers.append(copy.deepcopy(self.assets_dict['modifiers'][race]))
-                creatures[object_id] = creature
+                attributes = list()
+                for attribute_group in raw_attributes:
+                    attributes.append(components.Attributes(
+                        attribute_group.get('agility', 0),
+                        attribute_group.get('endurance', 0),
+                        attribute_group.get('intelligence', 0),
+                        attribute_group.get('luck', 0),
+                        attribute_group.get('personality', 0),
+                        attribute_group.get('strength', 0),
+                        attribute_group.get('willpower', 0)
+                    ))
+                raw_modifiers = raw_creature.get('modifiers', [])
+                modifiers = list()
+                for modifier_group in raw_modifiers:
+                    modifiers.append(modifier_group)
+                creature_template = components.CreatureTemplate(object_id)
+                creature_template.name = name
+                creature_template.character = character
+                creature_template.base_attributes = attributes
+                creature_template.modifiers = modifiers
+                creatures[object_id] = creature_template
         return creatures
 
     def load_items(self, path):

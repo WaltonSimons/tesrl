@@ -1,0 +1,13 @@
+---
+modifiers:
+- name: "Draugr"
+  id: draugr
+  type: race
+  attributes:
+    agility: 0
+    endurance: 0
+    intelligence: 0
+    luck: 0
+    personality: 0
+    strength: 0
+    willpower: 0

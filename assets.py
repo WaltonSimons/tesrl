@@ -13,7 +13,11 @@ class Assets:
         self.assets = self.load_assets()
 
     def instantiate(self, category, id):
-        return copy.deepcopy(self.get_asset(category, id))
+        if category != 'creatures':
+            res = copy.deepcopy(self.get_asset(category, id))
+        else:
+            res = self.instantiate_creature(self.get_asset('creatures', id))
+        return res
 
     def get_asset(self, category, id):
         return self.assets.get(category).get(id)
@@ -38,31 +42,21 @@ class Assets:
         map_object.reload_fov_map()
         return map_object
 
-
-ASSETS = Assets()
-
-
-class CreatureTemplate:
-    def __init__(self):
-        self.name = None
-        self.character = None
-        self.base_attributes = None
-        self.modifiers = None
-        self.equipment = None
-        self.inventory = None
-        self.loot = None
-
-    def instantiate(self):
-        attributes = copy.deepcopy(random.choice(self.base_attributes))
+    def instantiate_creature(self, creature_template):
+        attributes = copy.deepcopy(random.choice(creature_template.base_attributes))
         creature = components.Creature(
-            self.name,
-            self.character,
+            creature_template.name,
+            creature_template.character,
             attributes
         )
-        creature.modifiers = self.instantiate_group(random.choice(self.modifiers))
-        creature.equipment = self.instantiate_group(random.choice(self.equipment))
-        creature.inventory = self.instantiate_group(random.choice(self.inventory))
-        creature.loot = self.instantiate_group(random.choice(self.loot))
+        creature.modifiers = self.instantiate_group(random.choice(creature_template.modifiers), 'modifiers')
+        #creature.equipment = self.instantiate_group(random.choice(creature_template.equipment))
+        #creature.inventory = self.instantiate_group(random.choice(creature_template.inventory))
+        #creature.loot = self.instantiate_group(random.choice(creature_template.loot))
+        return creature
 
     def instantiate_group(self, ids_group, category):
         return [ASSETS.instantiate(category, ob_id) for ob_id in ids_group]
+
+
+ASSETS = Assets()
