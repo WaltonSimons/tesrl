@@ -1,12 +1,12 @@
 import math
 from equipment import CreatureEquipment
-
+from enum import Enum
 
 class Creature:
-    def __init__(self, name, character, agility, endurance, intelligence, luck, personality, strength, willpower):
+    def __init__(self, name, character, base_attributes):
         self.name = name
         self.character = character
-        self.base_attributes = Attributes(agility, endurance, intelligence, luck, personality, strength, willpower)
+        self.base_attributes = base_attributes
         self.modifiers = list()
         self.equipment = CreatureEquipment()
 
@@ -81,10 +81,16 @@ class Creature:
 
 
 class Modifier:
-    def __init__(self, name, object_id):
+    def __init__(self, name, object_id, modifier_type):
         self.name = name
+        self.modifier_type = modifier_type
         self.object_id = object_id
         self.attributes = None
+
+
+class ModifierTypes(Enum):
+        RACE = 'race'
+        LIFEFORM = 'lifeform'
 
 
 class Attributes:

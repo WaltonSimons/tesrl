@@ -1,7 +1,8 @@
 ---
-race_presets:
+modifiers:
 - name: Imperial
   id: imperial
+  type: race
   attributes:
     agility: -10
     endurance: 0

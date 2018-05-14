@@ -5,3 +5,8 @@ weapons:
   value: 10
   base_damage: 5
   two_handed: false
+- name: Ancient Nord Sword
+  id: ancient_nord_sword
+  value: 13
+  base_damage: 8
+  two_handed: false

@@ -2,11 +2,10 @@ import tcod
 from object import *
 from maps import *
 from game import GAME
-from assets import Assets
+from assets import ASSETS
 from random import random
 from equipment import EquipmentSlots
 
-ASSETS = Assets()
 
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 50

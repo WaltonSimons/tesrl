@@ -2,6 +2,9 @@ from loader import Loader
 from yaml import load
 from maps import Map
 import copy
+import random
+import components
+
 
 class Assets:
     def __init__(self):
@@ -34,3 +37,32 @@ class Assets:
             x += 1
         map_object.reload_fov_map()
         return map_object
+
+
+ASSETS = Assets()
+
+
+class CreatureTemplate:
+    def __init__(self):
+        self.name = None
+        self.character = None
+        self.base_attributes = None
+        self.modifiers = None
+        self.equipment = None
+        self.inventory = None
+        self.loot = None
+
+    def instantiate(self):
+        attributes = copy.deepcopy(random.choice(self.base_attributes))
+        creature = components.Creature(
+            self.name,
+            self.character,
+            attributes
+        )
+        creature.modifiers = self.instantiate_group(random.choice(self.modifiers))
+        creature.equipment = self.instantiate_group(random.choice(self.equipment))
+        creature.inventory = self.instantiate_group(random.choice(self.inventory))
+        creature.loot = self.instantiate_group(random.choice(self.loot))
+
+    def instantiate_group(self, ids_group, category):
+        return [ASSETS.instantiate(category, ob_id) for ob_id in ids_group]

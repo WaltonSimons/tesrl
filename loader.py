@@ -9,16 +9,18 @@ from yaml import load
 
 
 class Loader:
+    def __init__(self):
+        self.assets_dict = dict()
+
     def load_module(self, name):
         print('Loading module {}'.format(name))
         path = 'modules/{}/'.format(name)
-        self.assets_dict = dict()
         print('Loading tile types')
         tiles = self.load_tiles(path)
         self.assets_dict['tiles'] = tiles
-        print('Loading races')
-        races = self.load_races(path)
-        self.assets_dict['races'] = races
+        print('Loading modifiers')
+        modifiers = self.load_modifiers(path)
+        self.assets_dict['modifiers'] = modifiers
         print('Loading creatures')
         creatures = self.load_creatures(path)
         self.assets_dict['creatures'] = creatures
@@ -50,15 +52,15 @@ class Loader:
                 tiles[object_id] = (TileType(name, object_id, color, block, block_sight))
         return tiles
 
-    def load_races(self, path):
-        path = path + 'races/'
-        race_files = os.listdir(path)
-        races = dict()
-        for race_file_name in race_files:
-            print('Loading {}'.format(race_file_name))
-            raw = load(open(path + race_file_name))
-            for raw_race in raw.get('race_presets'):
-                raw_attributes = raw_race.get('attributes')
+    def load_modifiers(self, path):
+        path = path + 'modifiers/'
+        modifier_files = os.listdir(path)
+        modifiers = dict()
+        for modifier_file_name in modifier_files:
+            print('Loading {}'.format(modifier_file_name))
+            raw = load(open(path + modifier_file_name))
+            for raw_modifier in raw.get('modifiers'):
+                raw_attributes = raw_modifier.get('attributes')
                 attributes = components.Attributes(
                     raw_attributes.get('agility', 0),
                     raw_attributes.get('endurance', 0),
@@ -68,13 +70,15 @@ class Loader:
                     raw_attributes.get('strength', 0),
                     raw_attributes.get('willpower', 0)
                 )
-                race = components.Modifier(
-                    raw_race.get('name'),
-                    raw_race.get('id')
+                modifier_type = raw_modifier.get('type')
+                modifier = components.Modifier(
+                    raw_modifier.get('name'),
+                    raw_modifier.get('id'),
+                    components.ModifierTypes(modifier_type)
                 )
-                race.attributes = attributes
-                races[race.name] = race
-        return races
+                modifier.attributes = attributes
+                modifiers[modifier.name] = modifier
+        return modifiers
 
     def load_creatures(self, path):
         path = path + 'creatures/'
@@ -89,9 +93,7 @@ class Loader:
                 race = raw_creature.get('race')
                 character = raw_creature.get('character')
                 raw_attributes = raw_creature.get('attributes')
-                creature = components.Creature(
-                    name,
-                    character,
+                attributes = components.Attributes(
                     raw_attributes.get('agility', 0),
                     raw_attributes.get('endurance', 0),
                     raw_attributes.get('intelligence', 0),
@@ -100,8 +102,13 @@ class Loader:
                     raw_attributes.get('strength', 0),
                     raw_attributes.get('willpower', 0)
                 )
-                if race in self.assets_dict['races']:
-                    creature.modifiers.append(copy.deepcopy(self.assets_dict['races'][race]))
+                creature = components.Creature(
+                    name,
+                    character,
+                    attributes,
+                )
+                if race in self.assets_dict['modifiers']:
+                    creature.modifiers.append(copy.deepcopy(self.assets_dict['modifiers'][race]))
                 creatures[object_id] = creature
         return creatures
 
@@ -126,4 +133,3 @@ class Loader:
                 )
                 items[object_id] = weapon
         return items
-
