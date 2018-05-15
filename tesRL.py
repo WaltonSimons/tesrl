@@ -23,9 +23,6 @@ player.y = 25
 player.components['Creature'] = ASSETS.instantiate('creatures', 'base_player')
 game.current_map = level_map
 objects.append(player)
-dagger = ASSETS.instantiate('items', 'iron_dagger')
-player.get_component('Creature').equip(dagger, EquipmentSlots.RIGHT_HAND)
-player.get_component('Creature').unequip(dagger)
 
 player2 = Object('@')
 player2.x = 45

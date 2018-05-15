@@ -107,11 +107,13 @@ class Loader:
                 modifiers = list()
                 for modifier_group in raw_modifiers:
                     modifiers.append(modifier_group)
+                creature_equipment = raw_creature.get('equipment')
                 creature_template = components.CreatureTemplate(object_id)
                 creature_template.name = name
                 creature_template.character = character
                 creature_template.base_attributes = attributes
                 creature_template.modifiers = modifiers
+                creature_template.equipment = creature_equipment
                 creatures[object_id] = creature_template
         return creatures
 

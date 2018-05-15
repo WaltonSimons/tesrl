@@ -23,6 +23,8 @@ class Creature:
         self.loot = list()
 
     def equip(self, item, slot):
+        if item not in self.inventory:
+            self.inventory.append(item)
         self.equipment.equip(item, slot)
 
     def unequip(self, item):

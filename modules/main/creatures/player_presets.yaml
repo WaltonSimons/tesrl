@@ -13,3 +13,5 @@ creatures:
       willpower: 40
   modifiers:
     - - imperial
+  equipment:
+    right_hand: iron_dagger

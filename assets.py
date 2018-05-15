@@ -4,6 +4,7 @@ from maps import Map
 import copy
 import random
 import components
+from equipment import EquipmentSlots
 
 
 class Assets:
@@ -50,7 +51,8 @@ class Assets:
             attributes
         )
         creature.modifiers = self.instantiate_group(random.choice(creature_template.modifiers), 'modifiers')
-        #creature.equipment = self.instantiate_group(random.choice(creature_template.equipment))
+        for slot, item in creature_template.equipment.items():
+            creature.equip(ASSETS.instantiate('items', item), EquipmentSlots(slot))
         #creature.inventory = self.instantiate_group(random.choice(creature_template.inventory))
         #creature.loot = self.instantiate_group(random.choice(creature_template.loot))
         return creature
