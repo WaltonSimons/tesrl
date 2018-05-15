@@ -15,3 +15,5 @@ creatures:
     - - imperial
   equipment:
     right_hand: iron_dagger
+  inventory:
+    gold: 10...100

@@ -1,0 +1,6 @@
+---
+items:
+- name: Gold
+  id: gold
+  value: 1
+  stackable: true

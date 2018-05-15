@@ -2,6 +2,7 @@ import math
 from equipment import CreatureEquipment
 from enum import Enum
 
+
 class Creature:
     def __init__(self, name, character, base_attributes):
         self.name = name
@@ -24,11 +25,24 @@ class Creature:
 
     def equip(self, item, slot):
         if item not in self.inventory:
-            self.inventory.append(item)
+            self.add_to_inventory(item)
         self.equipment.equip(item, slot)
 
     def unequip(self, item):
         self.equipment.unequip(item)
+
+    def add_to_inventory(self, item):
+        if item.stackable:
+            found = False
+            for inv_item in self.inventory:
+                if inv_item.object_id == item.object_id:
+                    inv_item.quantity += item.quantity
+                    found = True
+                    break
+            if not found:
+                self.inventory.append(item)
+        else:
+            self.inventory.append(item)
 
     def get_attribute(self, name):
         res = getattr(self.base_attributes, name)
@@ -91,8 +105,8 @@ class Modifier:
 
 
 class ModifierTypes(Enum):
-        RACE = 'race'
-        LIFEFORM = 'lifeform'
+    RACE = 'race'
+    LIFEFORM = 'lifeform'
 
 
 class Attributes:
@@ -116,4 +130,3 @@ class CreatureTemplate:
         self.equipment = None
         self.inventory = None
         self.loot = None
-

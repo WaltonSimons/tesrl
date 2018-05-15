@@ -108,12 +108,14 @@ class Loader:
                 for modifier_group in raw_modifiers:
                     modifiers.append(modifier_group)
                 creature_equipment = raw_creature.get('equipment')
+                creature_inventory = raw_creature.get('inventory')
                 creature_template = components.CreatureTemplate(object_id)
                 creature_template.name = name
                 creature_template.character = character
                 creature_template.base_attributes = attributes
                 creature_template.modifiers = modifiers
                 creature_template.equipment = creature_equipment
+                creature_template.inventory = creature_inventory
                 creatures[object_id] = creature_template
         return creatures
 
@@ -124,7 +126,7 @@ class Loader:
         for item_file_name in item_files:
             print('Loading {}'.format(item_file_name))
             raw = load(open(path + item_file_name))
-            for raw_weapon in raw.get('weapons'):
+            for raw_weapon in raw.get('weapons', []):
                 object_id = raw_weapon.get('id')
                 name = raw_weapon.get('name')
                 value = raw_weapon.get('value')
@@ -137,4 +139,16 @@ class Loader:
                     two_handed
                 )
                 items[object_id] = weapon
+            for raw_item in raw.get('items', []):
+                object_id = raw_item.get('id')
+                name = raw_item.get('name')
+                value = raw_item.get('value')
+                stackable = raw_item.get('stackable')
+                item = equipment.Item(
+                    name,
+                    object_id,
+                    stackable,
+                    0
+                )
+                items[object_id] = item
         return items

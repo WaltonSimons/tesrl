@@ -53,7 +53,12 @@ class Assets:
         creature.modifiers = self.instantiate_group(random.choice(creature_template.modifiers), 'modifiers')
         for slot, item in creature_template.equipment.items():
             creature.equip(ASSETS.instantiate('items', item), EquipmentSlots(slot))
-        #creature.inventory = self.instantiate_group(random.choice(creature_template.inventory))
+        for object_id, quantity in creature_template.inventory.items():
+            item = self.instantiate('items', object_id)
+            if quantity:
+                limits = [int(val) for val in quantity.split('...')]
+                item.quantity = random.randint(limits[0], limits[1])
+            creature.add_to_inventory(item)
         #creature.loot = self.instantiate_group(random.choice(creature_template.loot))
         return creature
 

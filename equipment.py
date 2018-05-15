@@ -32,10 +32,12 @@ class CreatureEquipment:
 
 
 class Item:
-    def __init__(self, name, object_id):
+    def __init__(self, name, object_id, stackable=False, quantity=1):
         self.name = name
         self.object_id = object_id
         self.type = ItemType.ITEM
+        self.stackable = stackable
+        self.quantity = quantity
 
 
 class Equipment(Item):
