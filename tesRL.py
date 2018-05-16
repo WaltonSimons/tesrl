@@ -24,6 +24,13 @@ player.components['Creature'] = ASSETS.instantiate('creatures', 'base_player')
 game.current_map = level_map
 objects.append(player)
 
+draugr = ASSETS.instantiate('creatures', 'draugr')
+draugr_object = Object(draugr.character)
+draugr_object.components['Creature'] = draugr
+draugr_object.x = 50
+draugr_object.y = 20
+objects.append(draugr_object)
+
 player2 = Object('@')
 player2.x = 45
 player2.y = 20

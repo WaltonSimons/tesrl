@@ -39,6 +39,9 @@ class Item:
         self.stackable = stackable
         self.quantity = quantity
 
+    def __str__(self):
+        return self.name
+
 
 class Equipment(Item):
     def __init__(self, name, object_id, possible_slots):

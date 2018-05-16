@@ -17,3 +17,5 @@ creatures:
     right_hand: iron_dagger
   inventory:
     gold: 10...100
+  loot:
+    human_heart:

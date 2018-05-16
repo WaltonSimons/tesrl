@@ -1,0 +1,19 @@
+---
+creatures:
+- name: "Draugr"
+  id: 'draugr'
+  character: 'D'
+  attributes:
+    - agility: 20
+      endurance: 30
+      intelligence: 10
+      luck: 20
+      personality: 5
+      strength: 40
+      willpower: 10
+  modifiers:
+    - - draugr
+  equipment:
+    right_hand: ancient_nord_war_axe
+  inventory:
+    gold: 10...100

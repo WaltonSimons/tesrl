@@ -1,0 +1,6 @@
+---
+items:
+- name: Human Heart
+  id: human_heart
+  value: 100
+  stackable: true
