@@ -27,6 +27,10 @@ class Object:
     def clear(self):
         tcod.console_put_char(0, self.x, self.y, ' ', tcod.BKGND_NONE)
 
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
+
 
 class TileType:
     def __init__(self, name, object_id, color, block, block_sight):

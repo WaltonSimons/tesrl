@@ -14,27 +14,16 @@ tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'TESRL', False)
 
 game = GAME
 
-objects = list()
 level_map = ASSETS.get_map('main', 'test', 'test')
 
-player = Object('@')
-player.x = 40
-player.y = 25
-player.components['Creature'] = ASSETS.instantiate('creatures', 'base_player')
+
+player = ASSETS.instantiate('creatures', 'base_player')
+player = level_map.place_object(player, 40, 25)
 game.current_map = level_map
-objects.append(player)
+
 
 draugr = ASSETS.instantiate('creatures', 'draugr')
-draugr_object = Object(draugr.character)
-draugr_object.components['Creature'] = draugr
-draugr_object.x = 50
-draugr_object.y = 20
-objects.append(draugr_object)
-
-player2 = Object('@')
-player2.x = 45
-player2.y = 20
-objects.append(player2)
+level_map.place_object(draugr, 50, 20)
 
 
 def handle_keys():
@@ -72,7 +61,7 @@ def render_level():
                     color = (max(min(int(500 * level_map.fog_noise_map[x][y]), 255), 0),) * 3
             tcod.console_set_char_background(0, x, y, color, tcod.BKGND_SET)
 
-    for o in objects:
+    for o in level_map.objects:
         o.draw()
 
     tcod.console_blit(0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
@@ -81,6 +70,6 @@ def render_level():
 while not tcod.console_is_window_closed():
     render_level()
     tcod.console_flush()
-    for o in objects:
+    for o in game.current_map.objects:
         o.clear()
     handle_keys()

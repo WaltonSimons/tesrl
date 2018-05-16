@@ -1,4 +1,4 @@
-from object import TileType
+from object import Object
 import tcod
 from random import random
 
@@ -9,6 +9,7 @@ class Map:
         self.width = width
         self.tile_map = self.create_empty_map(height, width)
         self.fog_noise_map = self.create_fog_noise_map(height, width)
+        self.objects = list()
 
         self.fov_map = self.create_fov_map()
 
@@ -31,12 +32,22 @@ class Map:
         fov_map = tcod.map_new(self.width, self.height)
         for y in range(self.height):
             for x in range(self.width):
-                tcod.map_set_properties(fov_map, x, y, not self.tile_map[x][y].block_sight, not self.tile_map[x][y].block)
+                tcod.map_set_properties(fov_map, x, y, not self.tile_map[x][y].block_sight,
+                                        not self.tile_map[x][y].block)
         return fov_map
 
     def create_fog_noise_map(self, height, width):
         res = [[(random()*0.02) for _ in range(height)] for _ in range(width)]
         return res
+
+    def place_object(self, item, x, y):
+        class_name = type(item).__name__
+        map_object = Object(item.character)
+        map_object.set_position(x, y)
+        map_object.components[class_name] = item
+        self.objects.append(map_object)
+        return map_object
+
 
 class Tile:
     def __init__(self, terrain, visited):
