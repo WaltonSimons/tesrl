@@ -6,6 +6,7 @@ class Game:
     def __init__(self):
         self.controls = Controls()
         self.current_map = None
+        self.player = None
 
 
 class Controls:

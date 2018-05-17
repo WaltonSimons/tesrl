@@ -4,7 +4,7 @@ from maps import *
 from game import GAME
 from assets import ASSETS
 from random import random
-from equipment import EquipmentSlots
+from map_manager import MapManager
 
 
 SCREEN_WIDTH = 80
@@ -18,17 +18,18 @@ level_map = ASSETS.get_map('main', 'test', 'test')
 
 
 player = ASSETS.instantiate('creatures', 'base_player')
-player = level_map.place_object(player, 40, 25)
+game.player = MapManager.place_object(level_map, player, 40, 25)
 game.current_map = level_map
 
-
-draugr = ASSETS.instantiate('creatures', 'draugr')
-level_map.place_object(draugr, 50, 20)
+MapManager.place_creature(level_map, 'draugr', 50, 20)
+MapManager.place_creature(level_map, 'draugr', 50, 22)
+MapManager.place_creature(level_map, 'draugr', 50, 21)
 
 
 def handle_keys():
     key = tcod.console_wait_for_keypress(True)
     key = key.vk if key.vk is not tcod.KEY_CHAR else chr(key.c)
+    player = game.player
     if key == tcod.KEY_ESCAPE:
         player.get_component('Creature').base_attributes.agility += 1
     if key in game.controls.actions['up']:
@@ -46,6 +47,7 @@ def handle_keys():
 
 def render_level():
     level_map = game.current_map
+    player = game.player
     tcod.map_compute_fov(game.current_map.fov_map, player.x, player.y, player.get_component('Creature').fov, True, 0)
     for y in range(level_map.height):
         for x in range(level_map.width):

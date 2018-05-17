@@ -2,7 +2,6 @@ from object import Object
 import tcod
 from random import random
 
-
 class Map:
     def __init__(self, height, width):
         self.height = height
@@ -40,13 +39,6 @@ class Map:
         res = [[(random()*0.02) for _ in range(height)] for _ in range(width)]
         return res
 
-    def place_object(self, item, x, y):
-        class_name = type(item).__name__
-        map_object = Object(item.character)
-        map_object.set_position(x, y)
-        map_object.components[class_name] = item
-        self.objects.append(map_object)
-        return map_object
 
 
 class Tile:
