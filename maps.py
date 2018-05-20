@@ -2,6 +2,7 @@ from object import Object
 import tcod
 from random import random
 
+
 class Map:
     def __init__(self, height, width):
         self.height = height
@@ -36,9 +37,8 @@ class Map:
         return fov_map
 
     def create_fog_noise_map(self, height, width):
-        res = [[(random()*0.02) for _ in range(height)] for _ in range(width)]
+        res = [[(random() * 0.02) for _ in range(height)] for _ in range(width)]
         return res
-
 
 
 class Tile:
@@ -49,3 +49,10 @@ class Tile:
     def __getattr__(self, item):
         if hasattr(self.terrain, item):
             return getattr(self.terrain, item)
+
+
+class Room:
+    def __init__(self, tile_map, exits):
+        self.tile_map = tile_map
+        self.exits = exits
+        self.size = len(tile_map), len(tile_map[0])

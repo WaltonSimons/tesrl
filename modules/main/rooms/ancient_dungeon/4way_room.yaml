@@ -1,0 +1,11 @@
+---
+room_info:
+  id: ancient_4way_room
+  legend:
+    '#': base_wall
+    O: base_floor
+  exits:
+    N: 4-5
+    E: 4-5
+    S: 4-5
+    W: 4-5

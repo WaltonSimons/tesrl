@@ -1,4 +1,5 @@
 from object import TileType, Object
+from maps import Room
 import components
 import equipment
 import tcod
@@ -27,7 +28,9 @@ class Loader:
         print('Loading items')
         items = self.load_items(path)
         self.assets_dict['items'] = items
-
+        print('Loading rooms')
+        rooms = self.load_rooms(path)
+        self.assets_dict['rooms'] = rooms
         return self.assets_dict
 
     def load_tiles(self, path):
@@ -153,4 +156,25 @@ class Loader:
                     0
                 )
                 items[object_id] = item
+        return items
+
+    def load_rooms(self, path):
+        path = path + 'rooms/'
+        room_subfolders = os.listdir(path)
+        items = dict()
+        for subfolder in room_subfolders:
+            sub_path = path + subfolder + '/'
+            room_names = [room_name[:-4] for room_name in os.listdir(sub_path) if room_name[-4:] == '.map']
+            for room_name in room_names:
+                raw_meta = load(open(sub_path + room_name + '.yaml'))
+                raw_room = open(sub_path + room_name + '.map')
+                meta = raw_meta.get('room_info')
+                room_data = raw_room.readlines()
+                legend = meta.get('legend')
+                room_id = meta.get('id')
+                tile_map = [[legend[symbol] for symbol in line.strip()] for line in room_data]
+                exits = meta.get('exits')
+                exits = {side: tuple(map(int, tile_range.split('-'))) for side, tile_range in exits.items()}
+                room = Room(tile_map, exits)
+                items[room_id] = room
         return items
