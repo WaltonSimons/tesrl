@@ -4,7 +4,7 @@ from maps import *
 from game import GAME
 from assets import ASSETS
 from random import random
-from map_manager import MapManager
+from map_manager import MapManager, MapGen
 
 
 SCREEN_WIDTH = 80
@@ -14,8 +14,8 @@ tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'TESRL', False)
 
 game = GAME
 
-level_map = ASSETS.get_map('main', 'test', 'test')
-
+#level_map = ASSETS.get_map('main', 'test', 'test')
+level_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
 
 player = ASSETS.instantiate('creatures', 'base_player')
 game.player = MapManager.place_object(level_map, player, 40, 25)
