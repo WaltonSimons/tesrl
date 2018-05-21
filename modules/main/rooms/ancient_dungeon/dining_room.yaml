@@ -1,0 +1,11 @@
+---
+room_info:
+  id: ancient_dining_room
+  legend:
+    '#': base_wall
+    O: base_floor
+  exits:
+    N: 1-1
+    E: 1-1
+    S: 1-1
+    W: 1-1

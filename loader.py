@@ -173,6 +173,7 @@ class Loader:
                 legend = meta.get('legend')
                 room_id = meta.get('id')
                 tile_map = [[legend[symbol] for symbol in line.strip()] for line in room_data]
+                tile_map = [*zip(*tile_map)] # transpose room array
                 exits = meta.get('exits')
                 exits = {side: tuple(map(int, tile_range.split('-'))) for side, tile_range in exits.items()}
                 room = Room(tile_map, exits)

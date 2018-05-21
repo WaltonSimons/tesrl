@@ -30,11 +30,11 @@ class MapGen:
         # 3 - corridor
         taken_spaces_map = [[0 for _ in range(height)] for _ in range(width)]
         room_positions = list()
-        for x in range(10):
+        for x in range(100):
             room = random.choice(rooms)
             tries = 3
             while tries > 0:
-                room_coordinates = (random.randint(0, width - room.size[1]), random.randint(0, height - room.size[0]))
+                room_coordinates = (random.randint(0, width - room.size[0]), random.randint(0, height - room.size[1]))
                 free_space = MapGen.check_free_space(taken_spaces_map, room_coordinates, room)
                 if free_space:
                     MapGen.reserve_space_for_room(taken_spaces_map, room_coordinates, room)

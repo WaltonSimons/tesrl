@@ -1,0 +1,12 @@
+---
+room_info:
+  id: ancient_4way_water_room
+  legend:
+    '#': base_wall
+    O: base_floor
+    W: water
+  exits:
+    N: 4-5
+    E: 4-5
+    S: 4-5
+    W: 4-5
