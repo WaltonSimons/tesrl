@@ -6,7 +6,7 @@ room_info:
     O: base_floor
     W: water
   exits:
-    N: 4-5
-    E: 4-5
-    S: 4-5
-    W: 4-5
+    N: 4-4
+    E: 4-4
+    S: 4-4
+    W: 4-4

@@ -2,6 +2,7 @@ from assets import ASSETS
 from object import Object
 from maps import Map
 import random
+import tcod
 
 
 class MapManager:
@@ -30,7 +31,8 @@ class MapGen:
         # 3 - corridor
         taken_spaces_map = [[0 for _ in range(height)] for _ in range(width)]
         room_positions = list()
-        for x in range(100):
+        exits = list()
+        for x in range(50):
             room = random.choice(rooms)
             tries = 3
             while tries > 0:
@@ -39,8 +41,10 @@ class MapGen:
                 if free_space:
                     MapGen.reserve_space_for_room(taken_spaces_map, room_coordinates, room)
                     room_positions.append((room_coordinates, room))
+                    exits += MapGen.get_exits(room_coordinates, room)
                     tries = 0
                 tries -= 1
+        MapGen.connect_rooms(taken_spaces_map, exits)
         return MapGen.generate_map(taken_spaces_map, room_positions, height, width)
 
     @classmethod
@@ -70,7 +74,7 @@ class MapGen:
         res = Map(height, width)
         for x, line in enumerate(taken_spaces_map):
             for y, space_type in enumerate(line):
-                if space_type == 2:
+                if space_type == 3:
                     res.tile_map[x][y].terrain = ASSETS.get_asset('tiles', 'base_floor')
                 else:
                     res.tile_map[x][y].terrain = ASSETS.get_asset('tiles', 'base_wall')
@@ -85,3 +89,47 @@ class MapGen:
             for y in range(coordinates[1], coordinates[1] + room.size[1]):
                 tile_id = room.tile_map[x - coordinates[0]][y - coordinates[1]]
                 _map.tile_map[x][y].terrain = ASSETS.get_asset('tiles', tile_id)
+
+    @classmethod
+    def get_exits(cls, room_coordinates, room):
+        res = list()
+        for side, exit_range in room.exits.items():
+            for x in range(exit_range[0], exit_range[1]+1):
+                if side == 'N':
+                    res.append((room_coordinates[0] + x, room_coordinates[1]))
+                elif side == 'E':
+                    res.append((room_coordinates[0] + room.size[0] - 1, room_coordinates[1] + x))
+                elif side == 'S':
+                    res.append((room_coordinates[0] + x, room_coordinates[1] + room.size[1] - 1))
+                elif side == 'W':
+                    res.append((room_coordinates[0], room_coordinates[1] + x))
+        return res
+
+    @classmethod
+    def connect_rooms(cls, taken_spaces_map, exits):
+        path_map = tcod.map_new(len(taken_spaces_map), len(taken_spaces_map[0]))
+        for x in range(path_map.width):
+            for y in range(path_map.height):
+                if (x, y) not in exits:
+                    tcod.map_set_properties(path_map, x, y, False, taken_spaces_map[x][y] != 1)
+                else:
+                    tcod.map_set_properties(path_map, x, y, False, True)
+        connected_exits = list()
+        for exit in exits:
+            if exit not in connected_exits:
+                path = tcod.dijkstra_new(path_map, 0)
+                destination = None
+                while destination in [exit, None] + connected_exits:
+                    destination = random.choice(exits)
+                tcod.dijkstra_compute(path, exit[0], exit[1])
+                if tcod.dijkstra_path_set(path, destination[0], destination[1]):
+                    keep_destination = False
+                    for index in range(tcod.dijkstra_size(path)):
+                        point = tcod.dijkstra_get(path, index)
+                        if taken_spaces_map[point[0]][point[1]] == 3:
+                            keep_destination = True
+                            break
+                        taken_spaces_map[point[0]][point[1]] = 3
+                    connected_exits.append(exit)
+                    if not keep_destination:
+                        connected_exits.append(destination)

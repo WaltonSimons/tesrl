@@ -60,7 +60,7 @@ def render_level():
                 if tile.visited:
                     color = list(map(lambda a: max(min(int(a * (0.3 + level_map.fog_noise_map[x][y])), 255), 0), color))
                 else:
-                    color = (max(min(int(500 * level_map.fog_noise_map[x][y]), 255), 0),) * 3
+                    color = (max(min(int(300 * level_map.fog_noise_map[x][y]), 255), 0),) * 3
             tcod.console_set_char_background(0, x, y, color, tcod.BKGND_SET)
 
     for o in level_map.objects:
