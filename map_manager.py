@@ -29,6 +29,7 @@ class MapGen:
         # 1 - occupied by room
         # 2 - corridor only
         # 3 - corridor
+        # 4 - place wall on room
         taken_spaces_map = [[0 for _ in range(height)] for _ in range(width)]
         room_positions = list()
         exits = list()
@@ -72,14 +73,14 @@ class MapGen:
     @classmethod
     def generate_map(cls, taken_spaces_map, room_positions, height, width):
         res = Map(height, width)
+        for coordinates, room in room_positions:
+            MapGen.place_room(res, room, coordinates)
         for x, line in enumerate(taken_spaces_map):
             for y, space_type in enumerate(line):
                 if space_type == 3:
                     res.tile_map[x][y].terrain = ASSETS.get_asset('tiles', 'base_floor')
-                else:
+                elif space_type in [0, 2, 4]:
                     res.tile_map[x][y].terrain = ASSETS.get_asset('tiles', 'base_wall')
-        for coordinates, room in room_positions:
-            MapGen.place_room(res, room, coordinates)
         res.reload_fov_map()
         return res
 
@@ -119,8 +120,10 @@ class MapGen:
             if exit not in connected_exits:
                 path = tcod.dijkstra_new(path_map, 0)
                 destination = None
-                while destination in [exit, None] + connected_exits:
+                tries = 5
+                while destination in [exit, None] + connected_exits and tries > 0:
                     destination = random.choice(exits)
+                    tries -= 1
                 tcod.dijkstra_compute(path, exit[0], exit[1])
                 if tcod.dijkstra_path_set(path, destination[0], destination[1]):
                     keep_destination = False
@@ -133,3 +136,5 @@ class MapGen:
                     connected_exits.append(exit)
                     if not keep_destination:
                         connected_exits.append(destination)
+        for exit in set(exits) - set(connected_exits):
+            taken_spaces_map[exit[0]][exit[1]] = 4

@@ -31,7 +31,7 @@ def handle_keys():
     key = key.vk if key.vk is not tcod.KEY_CHAR else chr(key.c)
     player = game.player
     if key == tcod.KEY_ESCAPE:
-        player.get_component('Creature').base_attributes.agility += 1
+        game.current_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
     if key in game.controls.actions['up']:
         player.move(0, -1)
 

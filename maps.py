@@ -14,7 +14,7 @@ class Map:
         self.fov_map = self.create_fov_map()
 
     def create_empty_map(self, height, width):
-        res = [[Tile(None, False) for _ in range(height)] for _ in range(width)]
+        res = [[Tile(None, True) for _ in range(height)] for _ in range(width)]
         return res
 
     def get_tile(self, x, y):
