@@ -1,6 +1,6 @@
 from assets import ASSETS
 from object import Object
-from maps import Map
+from maps import Map, Room
 import random
 import tcod
 
@@ -35,6 +35,7 @@ class MapGen:
         exits = list()
         for x in range(50):
             room = random.choice(rooms)
+            room = Room.rotated(random.randint(0, 3), room)
             tries = 3
             while tries > 0:
                 room_coordinates = (random.randint(0, width - room.size[0]), random.randint(0, height - room.size[1]))
