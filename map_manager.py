@@ -95,16 +95,8 @@ class MapGen:
     @classmethod
     def get_exits(cls, room_coordinates, room):
         res = list()
-        for side, exit_range in room.exits.items():
-            for x in range(exit_range[0], exit_range[1]+1):
-                if side == 'N':
-                    res.append((room_coordinates[0] + x, room_coordinates[1]))
-                elif side == 'E':
-                    res.append((room_coordinates[0] + room.size[0] - 1, room_coordinates[1] + x))
-                elif side == 'S':
-                    res.append((room_coordinates[0] + x, room_coordinates[1] + room.size[1] - 1))
-                elif side == 'W':
-                    res.append((room_coordinates[0], room_coordinates[1] + x))
+        for exit_point in room.exits:
+            res.append((room_coordinates[0] + exit_point[0], room_coordinates[1] + exit_point[1]))
         return res
 
     @classmethod

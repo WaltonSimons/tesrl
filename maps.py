@@ -14,7 +14,7 @@ class Map:
         self.fov_map = self.create_fov_map()
 
     def create_empty_map(self, height, width):
-        res = [[Tile(None, True) for _ in range(height)] for _ in range(width)]
+        res = [[Tile(None, False) for _ in range(height)] for _ in range(width)]
         return res
 
     def get_tile(self, x, y):
@@ -65,19 +65,15 @@ class Room:
         if rotations == 0:
             return room
         else:
-            tile_map = [*zip(*room.tile_map[::-1])]
-            exits = Room.rotate_exits(room.exits)
+            tile_map = list(zip(*room.tile_map))[::-1]
+            exits = Room.rotate_exits(room.exits, room.size)
 
             room = Room(tile_map, exits)
             return Room.rotated(rotations-1, room)
 
     @staticmethod
-    def rotate_exits(exits):
-        res = dict()
-        for side, exit in exits.items():
-            new_side = side.translate(str.maketrans('NESW', 'WNES'))
-            new_exit = list()
-            for x in exit:
-                new_exit.append(x)
-            res[new_side] = new_exit
+    def rotate_exits(exits, size):
+        res = list()
+        for exit_point in exits:
+            res.append((size[1] - exit_point[1] - 1, exit_point[0]))
         return res

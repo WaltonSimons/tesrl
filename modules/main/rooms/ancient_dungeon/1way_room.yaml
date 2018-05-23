@@ -5,4 +5,4 @@ room_info:
     '#': base_wall
     O: base_floor
   exits:
-    S: 4-4
+    - 4,8
