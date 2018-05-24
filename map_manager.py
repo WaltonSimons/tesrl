@@ -9,7 +9,8 @@ class MapManager:
     @staticmethod
     def place_object(map, item, x, y):
         class_name = type(item).__name__
-        map_object = Object(item.character)
+        blocks = True if class_name == 'Creature' else False
+        map_object = Object(item.character, blocks=blocks)
         map_object.set_position(x, y)
         map_object.components[class_name] = item
         map.objects.append(map_object)

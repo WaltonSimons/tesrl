@@ -40,6 +40,14 @@ class Map:
         res = [[(random() * 0.02) for _ in range(height)] for _ in range(width)]
         return res
 
+    def is_blocked(self, x, y):
+        if self.tile_map[x][y].block:
+            return True
+        for obj in self.objects:
+            if obj.blocks and obj.x == x and obj.y == y:
+                return True
+        return False
+
 
 class Tile:
     def __init__(self, terrain, visited):

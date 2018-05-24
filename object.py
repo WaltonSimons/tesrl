@@ -3,11 +3,12 @@ from game import GAME
 
 
 class Object:
-    def __init__(self, character, color=tcod.white):
+    def __init__(self, character, color=tcod.white, blocks=False):
         self.x = None
         self.y = None
         self.char = character[0]
         self.color = color
+        self.blocks = blocks
         self.components = dict()
 
     def get_component(self, component):
@@ -15,7 +16,7 @@ class Object:
 
     def move(self, dx, dy):
         level_map = GAME.current_map
-        if not level_map.tile_map[self.x + dx][self.y + dy].block:
+        if not level_map.is_blocked(self.x + dx, self.y + dy):
             self.x += dx
             self.y += dy
 
