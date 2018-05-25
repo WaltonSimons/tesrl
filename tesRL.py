@@ -34,19 +34,31 @@ def handle_keys():
         game.current_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
     if key in game.controls.actions['up']:
         if GAME.game_state == GameState.PLAYING:
-            player.move(0, -1)
+            x = 0
+            y = -1
+            if not player.move(x, y):
+                player.get_component('Creature').attack_position(player.x + x, player.y + y, GAME.current_map)
 
     elif key in game.controls.actions['down']:
         if GAME.game_state == GameState.PLAYING:
-            player.move(0, 1)
+            x = 0
+            y = 1
+            if not player.move(x, y):
+                player.get_component('Creature').attack_position(player.x + x, player.y + y, GAME.current_map)
 
     elif key in game.controls.actions['left']:
         if GAME.game_state == GameState.PLAYING:
-            player.move(-1, 0)
+            x = -1
+            y = 0
+            if not player.move(x, y):
+                player.get_component('Creature').attack_position(player.x + x, player.y + y, GAME.current_map)
 
     elif key in game.controls.actions['right']:
         if GAME.game_state == GameState.PLAYING:
-            player.move(1, 0)
+            x = 1
+            y = 0
+            if not player.move(x, y):
+                player.get_component('Creature').attack_position(player.x + x, player.y + y, GAME.current_map)
 
 
 def render_level():
@@ -80,5 +92,7 @@ while not tcod.console_is_window_closed():
         o.clear()
     handle_keys()
     for o in game.current_map.objects:
-        if 'AI' in o.components:
-            o.get_component('AI').take_turn(o)
+        creature = o.get_component('Creature')
+        if creature:
+            if 'AI' in o.components and not creature.dead:
+                o.get_component('AI').take_turn(o)

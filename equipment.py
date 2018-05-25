@@ -30,6 +30,12 @@ class CreatureEquipment:
                 item.unequip()
                 self.equipped.remove(item)
 
+    def get_weapons(self):
+        slots = self.get_slots_status()
+        weapons = [weapon for weapon in [slots[EquipmentSlots.RIGHT_HAND], slots[EquipmentSlots.LEFT_HAND]] if
+                   weapon is not None]
+        return list(set(weapons))
+
 
 class Item:
     def __init__(self, name, object_id, stackable=False, quantity=1):

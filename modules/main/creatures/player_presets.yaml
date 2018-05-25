@@ -1,6 +1,6 @@
 ---
 creatures:
-- name: "Base Player"
+- name: "Bendu Olo"
   id: 'base_player'
   character: '@'
   attributes:

@@ -22,6 +22,7 @@ class Creature:
         self.encumbrance = self.get_encumbrance()
         self.inventory = list()
         self.loot = list()
+        self.dead = False
 
     def equip(self, item, slot):
         if item not in self.inventory:
@@ -95,6 +96,24 @@ class Creature:
     def fov(self):
         return int(4 + (math.sqrt(self.agility) * (3 / 2)))
 
+    def attack_position(self, x, y, level_map):
+        target = level_map.get_object_on_position(x, y)
+        if target:
+            creature = target.get_component('Creature')
+            if creature:
+                weapons = self.equipment.get_weapons()
+                damage = 0  # TODO: Damage class
+                for weapon in weapons:
+                    damage += weapon.base_damage
+                creature.take_damage(damage)
+
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            self.die()
+
+    def die(self):
+        self.dead = True
 
 class Modifier:
     def __init__(self, name, object_id, modifier_type):

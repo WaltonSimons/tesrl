@@ -8,7 +8,7 @@ class Object:
         self.y = None
         self.char = character[0]
         self.color = color
-        self.blocks = blocks
+        self._blocks = blocks
         self.components = dict()
 
     def get_component(self, component):
@@ -19,6 +19,10 @@ class Object:
         if not level_map.is_blocked(self.x + dx, self.y + dy):
             self.x += dx
             self.y += dy
+            res = True
+        else:
+            res = False
+        return res
 
     def draw(self):
         if tcod.map_is_in_fov(GAME.current_map.fov_map, self.x, self.y):
@@ -32,6 +36,14 @@ class Object:
         self.x = x
         self.y = y
 
+    @property
+    def blocks(self):
+        creature = self.get_component('Creature')
+        if not creature:
+            res = self._blocks
+        else:
+            res = creature.health >= 0
+        return res
 
 class TileType:
     def __init__(self, name, object_id, color, block, block_sight):

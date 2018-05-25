@@ -20,6 +20,12 @@ class Map:
     def get_tile(self, x, y):
         return self.tile_map[x][y]
 
+    def get_object_on_position(self, x, y):
+        for obj in self.objects:
+            if obj.x == x and obj.y == y:
+                return obj
+        return None
+
     def create_room(self, x1, y1, x2, y2, terrain):
         for x in range(x1, x2 + 1):
             for y in range(y1, y2 + 1):
