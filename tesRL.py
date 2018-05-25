@@ -1,7 +1,7 @@
 import tcod
 from object import *
 from maps import *
-from game import GAME
+from game import GAME, GameState
 from assets import ASSETS
 from random import random
 from map_manager import MapManager, MapGen
@@ -33,16 +33,20 @@ def handle_keys():
     if key == tcod.KEY_ESCAPE:
         game.current_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
     if key in game.controls.actions['up']:
-        player.move(0, -1)
+        if GAME.game_state == GameState.PLAYING:
+            player.move(0, -1)
 
     elif key in game.controls.actions['down']:
-        player.move(0, 1)
+        if GAME.game_state == GameState.PLAYING:
+            player.move(0, 1)
 
     elif key in game.controls.actions['left']:
-        player.move(-1, 0)
+        if GAME.game_state == GameState.PLAYING:
+            player.move(-1, 0)
 
     elif key in game.controls.actions['right']:
-        player.move(1, 0)
+        if GAME.game_state == GameState.PLAYING:
+            player.move(1, 0)
 
 
 def render_level():
@@ -75,3 +79,6 @@ while not tcod.console_is_window_closed():
     for o in game.current_map.objects:
         o.clear()
     handle_keys()
+    for o in game.current_map.objects:
+        if 'AI' in o.components:
+            o.get_component('AI').take_turn(o)

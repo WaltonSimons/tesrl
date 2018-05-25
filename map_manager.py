@@ -1,4 +1,5 @@
 from assets import ASSETS
+from npcs import AI
 from object import Object
 from maps import Map, Room
 import random
@@ -19,7 +20,9 @@ class MapManager:
     @staticmethod
     def place_creature(map, creature_id, x, y):
         creature = ASSETS.instantiate('creatures', creature_id)
-        return MapManager.place_object(map, creature, x, y)
+        res = MapManager.place_object(map, creature, x, y)
+        res.components['AI'] = AI()
+        return res
 
 
 class MapGen:
