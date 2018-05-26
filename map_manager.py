@@ -13,7 +13,7 @@ class MapManager:
         blocks = True if class_name == 'Creature' else False
         map_object = Object(item.character, blocks=blocks)
         map_object.set_position(x, y)
-        map_object.components[class_name] = item
+        map_object.add_component(item)
         map.objects.append(map_object)
         return map_object
 
@@ -21,7 +21,7 @@ class MapManager:
     def place_creature(map, creature_id, x, y):
         creature = ASSETS.instantiate('creatures', creature_id)
         res = MapManager.place_object(map, creature, x, y)
-        res.components['AI'] = AI()
+        res.add_component(AI())
         return res
 
 

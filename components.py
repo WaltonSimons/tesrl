@@ -3,8 +3,15 @@ from equipment import CreatureEquipment
 from enum import Enum
 
 
-class Creature:
+class Component:
+    def __init__(self):
+        self.comp_name = type(self).__name__
+        self.parent = None
+
+
+class Creature(Component):
     def __init__(self, name, character, base_attributes):
+        super().__init__()
         self.name = name
         self.character = character
         self.base_attributes = base_attributes
@@ -114,6 +121,7 @@ class Creature:
 
     def die(self):
         self.dead = True
+
 
 class Modifier:
     def __init__(self, name, object_id, modifier_type):

@@ -14,6 +14,10 @@ class Object:
     def get_component(self, component):
         return self.components[component] if component in self.components else None
 
+    def add_component(self, component):
+        self.components[component.comp_name] = component
+        component.parent = self
+
     def move(self, dx, dy):
         level_map = GAME.current_map
         if not level_map.is_blocked(self.x + dx, self.y + dy):
