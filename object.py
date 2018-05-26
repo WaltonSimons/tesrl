@@ -7,7 +7,7 @@ class Object:
         self.x = None
         self.y = None
         self.char = character[0]
-        self.color = color
+        self._color = color
         self._blocks = blocks
         self.components = dict()
 
@@ -48,6 +48,13 @@ class Object:
         else:
             res = creature.health >= 0
         return res
+
+    @property
+    def color(self):
+        for comp_name, component in self.components.items():
+            if hasattr(component, 'color'):
+                return component.color
+        return self._color
 
 class TileType:
     def __init__(self, name, object_id, color, block, block_sight):

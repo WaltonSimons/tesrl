@@ -3,6 +3,7 @@ creatures:
 - name: "Draugr"
   id: 'draugr'
   character: 'D'
+  color: lightest_blue
   attributes:
     - agility: 20
       endurance: 30

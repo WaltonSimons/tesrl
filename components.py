@@ -1,6 +1,7 @@
 import math
 from equipment import CreatureEquipment
 from enum import Enum
+import tcod
 
 
 class Component:
@@ -10,10 +11,11 @@ class Component:
 
 
 class Creature(Component):
-    def __init__(self, name, character, base_attributes):
+    def __init__(self, name, character, base_attributes, color=tcod.white):
         super().__init__()
         self.name = name
         self.character = character
+        self.color = color
         self.base_attributes = base_attributes
         self.modifiers = list()
         self.equipment = CreatureEquipment()
@@ -152,6 +154,7 @@ class CreatureTemplate:
         self.name = None
         self.object_id = object_id
         self.character = None
+        self.color = None
         self.base_attributes = None
         self.modifiers = None
         self.equipment = None

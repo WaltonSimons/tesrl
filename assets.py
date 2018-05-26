@@ -34,7 +34,8 @@ class Assets:
         creature = components.Creature(
             creature_template.name,
             creature_template.character,
-            attributes
+            attributes,
+            creature_template.color
         )
         creature.modifiers = self.instantiate_group(random.choice(creature_template.modifiers), 'modifiers')
         for slot, item in creature_template.equipment.items():

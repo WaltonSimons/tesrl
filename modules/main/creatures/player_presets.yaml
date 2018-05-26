@@ -3,6 +3,7 @@ creatures:
 - name: "Bendu Olo"
   id: 'base_player'
   character: '@'
+  color: white
   attributes:
     - agility: 40
       endurance: 40

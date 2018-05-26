@@ -43,11 +43,7 @@ class Loader:
             for raw_tile in raw.get('tiles'):
                 name = raw_tile.get('name')
                 object_id = raw_tile.get('id')
-                color = raw_tile.get('color')
-                if hasattr(tcod, color):
-                    color = getattr(tcod, color)
-                else:
-                    continue
+                color = Loader.get_color(raw_tile.get('color'))
                 block = raw_tile.get('block')
                 block_sight = raw_tile.get('block_sight')
                 if object_id in tiles:
@@ -94,6 +90,7 @@ class Loader:
                 object_id = raw_creature.get('id')
                 name = raw_creature.get('name')
                 character = raw_creature.get('character')
+                color = Loader.get_color(raw_creature.get('color'))
                 raw_attributes = raw_creature.get('attributes')
                 attributes = list()
                 for attribute_group in raw_attributes:
@@ -116,6 +113,7 @@ class Loader:
                 creature_template = components.CreatureTemplate(object_id)
                 creature_template.name = name
                 creature_template.character = character
+                creature_template.color = color
                 creature_template.base_attributes = attributes
                 creature_template.modifiers = modifiers
                 creature_template.equipment = creature_equipment
@@ -196,3 +194,10 @@ class Loader:
             x += 1
         map_object.reload_fov_map()
         return map_object
+
+    @classmethod
+    def get_color(cls, color):
+        if hasattr(tcod, color):
+            return getattr(tcod, color)
+        else:
+            return None

@@ -79,7 +79,8 @@ def render_level():
                     color = (max(min(int(300 * level_map.fog_noise_map[x][y]), 255), 0),) * 3
             tcod.console_set_char_background(0, x, y, color, tcod.BKGND_SET)
 
-    for o in level_map.objects:
+    objects = level_map.objects
+    for o in sorted(objects, key=lambda x: 0 if not x.get_component('Creature') else x.get_component('Creature').health):
         o.draw()
 
     tcod.console_blit(0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0)
