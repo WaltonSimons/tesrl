@@ -46,7 +46,7 @@ class Object:
         if not creature:
             res = self._blocks
         else:
-            res = creature.health >= 0
+            res = not creature.dead
         return res
 
     @property

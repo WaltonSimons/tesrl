@@ -123,6 +123,7 @@ class Creature(Component):
 
     def die(self):
         self.dead = True
+        self.parent.char = 'c'
 
 
 class Modifier:
