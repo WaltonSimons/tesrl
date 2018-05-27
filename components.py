@@ -90,13 +90,13 @@ class Creature(Component):
         return self.get_attribute('willpower')
 
     def get_max_health(self):
-        return (self.strength + self.endurance) / 2
+        return int((self.strength + self.endurance) / 2)
 
     def get_max_magicka(self):
-        return (self.intelligence + self.willpower) / 2
+        return int((self.intelligence + self.willpower) / 2)
 
     def get_fatigue(self):
-        return self.willpower + self.strength + self.agility + self.endurance
+        return int(self.willpower + self.strength + self.agility + self.endurance)
 
     def get_encumbrance(self):
         return 5 * self.strength

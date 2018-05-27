@@ -5,14 +5,15 @@ from game import GAME, GameState
 from assets import ASSETS
 from random import random
 from map_manager import MapManager, MapGen
-
+from ui import UI
 
 SCREEN_WIDTH = 80
-SCREEN_HEIGHT = 50
+SCREEN_HEIGHT = 60
 
 tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'TESRL', False)
 
 game = GAME
+ui = UI(GAME, 0, 50, 80, 10)
 
 #level_map = ASSETS.get_map('main', 'test', 'test')
 level_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
@@ -31,7 +32,7 @@ def handle_keys():
     key = key.vk if key.vk is not tcod.KEY_CHAR else chr(key.c)
     player = game.player
     if key == tcod.KEY_ESCAPE:
-        game.current_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
+        game.player.get_component('Creature').take_damage(5)
     if key in game.controls.actions['up']:
         if GAME.game_state == GameState.PLAYING:
             x = 0
@@ -88,6 +89,7 @@ def render_level():
 
 while not tcod.console_is_window_closed():
     render_level()
+    ui.blit()
     tcod.console_flush()
     for o in game.current_map.objects:
         o.clear()

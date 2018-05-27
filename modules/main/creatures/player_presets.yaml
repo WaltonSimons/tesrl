@@ -16,6 +16,7 @@ creatures:
     - - imperial
   equipment:
     right_hand: iron_dagger
+    left_hand: ancient_nord_sword
   inventory:
     gold: 10...100
   loot:
