@@ -9,6 +9,7 @@ class UI:
         self.width = width
         self.height = height
         self.console = tcod.console_new(width, height)
+        self.message_log = None
 
     def blit(self):
         self.draw_everything()
@@ -18,6 +19,7 @@ class UI:
         self.draw_bars()
         self.draw_numbers()
         self.draw_texts()
+        self.draw_messages()
 
     def draw_bars(self):
         player_stats = self.game.player.get_component('Creature')
@@ -47,6 +49,17 @@ class UI:
             tcod.console_print_ex(self.console, 12, y, tcod.BKGND_NONE, tcod.LEFT, weapon.name)
             y += 2
 
+    def draw_messages(self):
+        x = 25
+        width = self.width - x - 1
+        tcod.console_rect(self.console, x, 1, width, self.height, True, flag=tcod.BKGND_DEFAULT)
+        y = 1
+        for message in self.message_log.messages:
+            height = tcod.console_get_height_rect(self.console, x, y, width, self.height, message.text)
+            tcod.console_print_rect_ex(self.console, 25, y, width, self.height, tcod.BKGND_NONE, tcod.LEFT,
+                                       message.text)
+            y += height
+
 
 class UIUtils:
     @staticmethod
@@ -58,3 +71,25 @@ class UIUtils:
         tcod.console_set_default_background(console, color)
         if value > 0:
             tcod.console_rect(console, x, y, width, 1, False, tcod.BKGND_SET)
+
+
+class MessageLog:
+    def __init__(self, log_limit):
+        self.messages = list()
+        self.log_limit = log_limit
+
+    def add_message(self, message, color=tcod.white, bg_color=tcod.BKGND_NONE):
+        message = Message(message, color, bg_color)
+        self.messages.insert(0, message)
+        if len(self.messages) > self.log_limit:
+            self.messages.pop()
+
+
+class Message:
+    def __init__(self, text, color, bg_color):
+        self.text = text
+        self.color = color
+        self.bg_color = bg_color
+
+
+MESSAGE_LOG = MessageLog(300)

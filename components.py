@@ -1,5 +1,7 @@
 import math
 from equipment import CreatureEquipment
+from ui import MESSAGE_LOG
+from game import GAME
 from enum import Enum
 import tcod
 
@@ -114,12 +116,27 @@ class Creature(Component):
                 damage = 0  # TODO: Damage class
                 for weapon in weapons:
                     damage += weapon.base_damage
-                creature.take_damage(damage)
+                dealt_damage, dead = creature.take_damage(damage)
+
+                color = tcod.white
+                if self.parent == GAME.player:
+                    message = 'You deal {} damage to {}!'.format(dealt_damage, creature.name)
+                elif creature == GAME.player:
+                    message = 'You take {} damage from {}!'.format(dealt_damage, creature.name)
+                    color = tcod.dark_red
+                else:
+                    message = '{} deals {} damage to {}!'.format(self.name, dealt_damage, creature.name)
+                MESSAGE_LOG.add_message(message, color)
+                if dead:
+                    MESSAGE_LOG.add_message('{} dies!'.format(creature.name))
 
     def take_damage(self, damage):
         self.health -= damage
+        death = False
         if self.health <= 0:
             self.die()
+            death = True
+        return damage, death
 
     def die(self):
         self.dead = True

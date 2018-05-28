@@ -5,7 +5,7 @@ from game import GAME, GameState
 from assets import ASSETS
 from random import random
 from map_manager import MapManager, MapGen
-from ui import UI
+from ui import UI, MESSAGE_LOG
 
 SCREEN_WIDTH = 80
 SCREEN_HEIGHT = 60
@@ -14,6 +14,8 @@ tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'TESRL', False)
 
 game = GAME
 ui = UI(GAME, 0, 50, 80, 10)
+ui.message_log = MESSAGE_LOG
+MESSAGE_LOG.add_message('Welcome to tesRL!')
 
 #level_map = ASSETS.get_map('main', 'test', 'test')
 level_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
