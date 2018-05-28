@@ -25,6 +25,20 @@ class MapManager:
         res.add_component(AI())
         return res
 
+    @staticmethod
+    def place_object_randomly(map, item):
+        x, y = MapManager.find_random_free_space(map)
+        return MapManager.place_object(map, item, x, y)
+
+    @staticmethod
+    def find_random_free_space(map, tries=100):
+        while tries > 0:
+            x = random.randint(0, map.width - 1)
+            y = random.randint(0, map.height - 1)
+            if not map.is_blocked(x, y):
+                return x, y
+            tries -= 1
+
 
 class MapGen:
     @staticmethod

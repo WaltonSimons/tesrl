@@ -54,12 +54,15 @@ class UI:
         width = self.width - x - 1
         tcod.console_rect(self.console, x, 1, width, self.height, True, flag=tcod.BKGND_DEFAULT)
         y = 1
+        fade_counter = 0
         for message in self.message_log.messages:
             height = tcod.console_get_height_rect(self.console, x, y, width, self.height, message.text)
-            tcod.console_set_default_foreground(self.console, message.color)
+            color = message.color * (1 - (fade_counter * 0.1))
+            tcod.console_set_default_foreground(self.console, color)
             tcod.console_print_rect_ex(self.console, 25, y, width, self.height, tcod.BKGND_NONE, tcod.LEFT,
                                        message.text)
             y += height
+            fade_counter += 1
 
 
 class UIUtils:

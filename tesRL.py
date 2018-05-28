@@ -21,12 +21,11 @@ MESSAGE_LOG.add_message('Welcome to tesRL!')
 level_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
 
 player = ASSETS.instantiate('creatures', 'base_player')
-game.player = MapManager.place_object(level_map, player, 40, 25)
+game.player = MapManager.place_object_randomly(level_map, player)
 game.current_map = level_map
 
-MapManager.place_creature(level_map, 'draugr', 50, 20)
-MapManager.place_creature(level_map, 'draugr', 50, 22)
-MapManager.place_creature(level_map, 'draugr', 50, 21)
+for _ in range(5):
+    MapManager.place_creature(level_map, 'draugr', *MapManager.find_random_free_space(game.current_map))
 
 
 def handle_keys():
