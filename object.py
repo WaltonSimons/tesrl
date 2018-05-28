@@ -30,6 +30,10 @@ class Object:
             res = False
         return res
 
+    def move_or_attack(self, dx, dy):
+        if not self.move(dx, dy):
+            self.get_component('Creature').attack_position(self.x + dx, self.y + dy, self.level_map)
+
     def draw(self):
         if tcod.map_is_in_fov(GAME.current_map.fov_map, self.x, self.y):
             tcod.console_set_default_foreground(0, self.color)

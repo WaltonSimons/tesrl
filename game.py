@@ -35,7 +35,8 @@ class GameState(Enum):
 
 
 class PlayerAction(Enum):
-    TAKETURN = 'take_turn'
+    TAKE_TURN = 'take_turn'
+    OTHER_ACTION = 'other_action'
 
 
 GAME = Game()

@@ -20,7 +20,7 @@ class AI(Component):
     def take_turn(self):
         target = self.target
         if target:
-            if self.parent.distance_to(target) > 1:
+            if int(self.parent.distance_to(target)) > 1:
                 x, y = self.move_to_coordinates_step(self.parent.x, self.parent.y, target.x, target.y, self.parent.level_map)
                 if x and y:
                     self.parent.move(x - self.parent.x, y - self.parent.y)

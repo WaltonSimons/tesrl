@@ -11,3 +11,13 @@ left:
 right:
   - KEY_RIGHT
   - KEY_KP6
+up_left:
+  - KEY_KP7
+up_right:
+  - KEY_KP9
+down_left:
+  - KEY_KP1
+down_right:
+  - KEY_KP3
+wait:
+  - KEY_KP5
