@@ -56,6 +56,7 @@ class UI:
         y = 1
         for message in self.message_log.messages:
             height = tcod.console_get_height_rect(self.console, x, y, width, self.height, message.text)
+            tcod.console_set_default_foreground(self.console, message.color)
             tcod.console_print_rect_ex(self.console, 25, y, width, self.height, tcod.BKGND_NONE, tcod.LEFT,
                                        message.text)
             y += height

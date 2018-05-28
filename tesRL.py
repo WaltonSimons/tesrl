@@ -100,4 +100,4 @@ while not tcod.console_is_window_closed():
         creature = o.get_component('Creature')
         if creature:
             if 'AI' in o.components and not creature.dead:
-                o.get_component('AI').take_turn(o)
+                o.get_component('AI').take_turn()

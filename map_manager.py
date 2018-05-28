@@ -14,6 +14,7 @@ class MapManager:
         map_object = Object(item.character, blocks=blocks)
         map_object.set_position(x, y)
         map_object.add_component(item)
+        map_object.level_map = map
         map.objects.append(map_object)
         return map_object
 

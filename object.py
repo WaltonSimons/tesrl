@@ -1,4 +1,5 @@
 import tcod
+import math
 from game import GAME
 
 
@@ -10,6 +11,7 @@ class Object:
         self._color = color
         self._blocks = blocks
         self.components = dict()
+        self.level_map = None
 
     def get_component(self, component):
         return self.components[component] if component in self.components else None
@@ -39,6 +41,20 @@ class Object:
     def set_position(self, x, y):
         self.x = x
         self.y = y
+
+    def movement_towards(self, target_x, target_y):
+        dx = target_x - self.x
+        dy = target_y - self.y
+        distance = math.sqrt(dx ** 2 + dy ** 2)
+
+        dx = int(round(dx / distance))
+        dy = int(round(dy / distance))
+        return dx, dy
+
+    def distance_to(self, other):
+        dx = other.x - self.x
+        dy = other.y - self.y
+        return math.sqrt(dx ** 2 + dy ** 2)
 
     @property
     def blocks(self):

@@ -121,8 +121,8 @@ class Creature(Component):
                 color = tcod.white
                 if self.parent == GAME.player:
                     message = 'You deal {} damage to {}!'.format(dealt_damage, creature.name)
-                elif creature == GAME.player:
-                    message = 'You take {} damage from {}!'.format(dealt_damage, creature.name)
+                elif creature.parent == GAME.player:
+                    message = 'You take {} damage from {}!'.format(dealt_damage, self.name)
                     color = tcod.dark_red
                 else:
                     message = '{} deals {} damage to {}!'.format(self.name, dealt_damage, creature.name)
