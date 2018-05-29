@@ -3,7 +3,6 @@ from object import *
 from maps import *
 from game import GAME, GameState, PlayerAction
 from assets import ASSETS
-from random import random
 from map_manager import MapManager, MapGen
 from ui import UI, MESSAGE_LOG
 
@@ -18,7 +17,7 @@ ui.message_log = MESSAGE_LOG
 MESSAGE_LOG.add_message('Welcome to tesRL!')
 
 # level_map = ASSETS.get_map('main', 'test', 'test')
-level_map = MapGen.create_random_map(50, 80, ASSETS.assets.get('rooms').keys())
+level_map = MapGen.create_random_map(50, 80, sorted(ASSETS.assets.get('rooms').keys()))
 
 player = ASSETS.instantiate('creatures', 'base_player')
 game.player = MapManager.place_object_randomly(level_map, player)
@@ -34,7 +33,7 @@ def handle_keys():
     player = game.player
     GAME.last_player_action = PlayerAction.OTHER_ACTION
     if key == tcod.KEY_ESCAPE:
-        game.player.get_component('Creature').take_damage(5)
+        pass
     if key in game.controls.actions['up']:
         if GAME.game_state == GameState.PLAYING:
             x = 0

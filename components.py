@@ -4,6 +4,7 @@ from ui import MESSAGE_LOG
 from game import GAME
 from enum import Enum
 import tcod
+import random
 
 
 class Component:
@@ -116,27 +117,62 @@ class Creature(Component):
                 damage = 0  # TODO: Damage class
                 for weapon in weapons:
                     damage += weapon.base_damage
-                dealt_damage, dead = creature.take_damage(damage)
 
-                color = tcod.white
-                if self.parent == GAME.player:
-                    message = 'You deal {} damage to {}!'.format(dealt_damage, creature.name)
-                elif creature.parent == GAME.player:
-                    message = 'You take {} damage from {}!'.format(dealt_damage, self.name)
-                    color = tcod.dark_red
+                hit_rate = ((self.agility / 6) + (self.luck / 10)) * (0.75 + 0.25 * self.fatigue / self.max_fatigue) * 10
+                hit = random.random() < hit_rate / 100
+                if hit:
+                    dealt_damage, evaded, dead = creature.get_attacked(damage)
+
+                    if not evaded:
+                        color = tcod.white
+                        if self.parent == GAME.player:
+                            message = 'You deal {} damage to {}!'.format(dealt_damage, creature.name)
+                        elif creature.parent == GAME.player:
+                            message = 'You take {} damage from {}!'.format(dealt_damage, self.name)
+                            color = tcod.dark_red
+                        else:
+                            message = '{} deals {} damage to {}!'.format(self.name, dealt_damage, creature.name)
+                        MESSAGE_LOG.add_message(message, color)
+                        if dead:
+                            MESSAGE_LOG.add_message('{} dies!'.format(creature.name))
+                    else:
+                        color = tcod.white
+                        if self.parent == GAME.player:
+                            message = '{} evaded your attack!'.format(creature.name)
+                        elif creature.parent == GAME.player:
+                            message = 'You evaded {} attack!'.format(self.name)
+                            color = tcod.light_chartreuse
+                        else:
+                            message = '{} evaded {} attack!'.format(creature.name, self.name)
+                        MESSAGE_LOG.add_message(message, color)
                 else:
-                    message = '{} deals {} damage to {}!'.format(self.name, dealt_damage, creature.name)
-                MESSAGE_LOG.add_message(message, color)
-                if dead:
-                    MESSAGE_LOG.add_message('{} dies!'.format(creature.name))
+                    color = tcod.white
+                    if self.parent == GAME.player:
+                        message = 'You miss {}!'.format(creature.name)
+                    elif creature.parent == GAME.player:
+                        message = '{} misses you!'.format(self.name)
+                        color = tcod.light_azure
+                    else:
+                        message = '{} misses {}!'.format(self.name, creature.name)
+                    MESSAGE_LOG.add_message(message, color)
+
+    def get_attacked(self, damage):
+        evasion_rate = ((self.agility / 5) + (self.luck / 10)) * (0.75 + 0.5 * self.fatigue / self.max_fatigue)
+        evaded = random.random() < evasion_rate / 100
+        if not evaded:
+            damage = self.take_damage(damage)
+            death = False
+            if self.health <= 0:
+                self.die()
+                death = True
+            return damage, False, death
+        else:
+            return None, True, False
+
 
     def take_damage(self, damage):
         self.health -= damage
-        death = False
-        if self.health <= 0:
-            self.die()
-            death = True
-        return damage, death
+        return damage
 
     def die(self):
         self.dead = True
