@@ -1,7 +1,7 @@
 import tcod
 import math
 from game import GAME
-
+from decorators import player_action
 
 class Object:
     def __init__(self, character, color=tcod.white, blocks=False):
@@ -30,6 +30,7 @@ class Object:
             res = False
         return res
 
+    @player_action
     def move_or_attack(self, dx, dy):
         if not self.move(dx, dy):
             self.get_component('Creature').attack_position(self.x + dx, self.y + dy, self.level_map)

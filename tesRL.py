@@ -39,52 +39,44 @@ def handle_keys():
             x = 0
             y = -1
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
 
     elif key in game.controls.actions['down']:
         if GAME.game_state == GameState.PLAYING:
             x = 0
             y = 1
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
 
     elif key in game.controls.actions['left']:
         if GAME.game_state == GameState.PLAYING:
             x = -1
             y = 0
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
 
     elif key in game.controls.actions['right']:
         if GAME.game_state == GameState.PLAYING:
             x = 1
             y = 0
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
     elif key in game.controls.actions['up_left']:
         if GAME.game_state == GameState.PLAYING:
             x = -1
             y = -1
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
     elif key in game.controls.actions['up_right']:
         if GAME.game_state == GameState.PLAYING:
             x = 1
             y = -1
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
     elif key in game.controls.actions['down_left']:
         if GAME.game_state == GameState.PLAYING:
             x = -1
             y = 1
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
     elif key in game.controls.actions['down_right']:
         if GAME.game_state == GameState.PLAYING:
             x = 1
             y = 1
             player.move_or_attack(x, y)
-            GAME.last_player_action = PlayerAction.TAKE_TURN
     elif key in game.controls.actions['wait']:
         if GAME.game_state == GameState.PLAYING:
             GAME.last_player_action = PlayerAction.TAKE_TURN
