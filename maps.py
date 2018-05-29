@@ -20,9 +20,16 @@ class Map:
     def get_tile(self, x, y):
         return self.tile_map[x][y]
 
-    def get_object_on_position(self, x, y):
+    def get_objects_on_position(self, x, y):
+        res = list()
         for obj in self.objects:
             if obj.x == x and obj.y == y:
+                res.append(obj)
+        return res
+
+    def get_blocking_object_on_position(self, x, y):
+        for obj in self.get_objects_on_position(x, y):
+            if obj.blocks:
                 return obj
         return None
 

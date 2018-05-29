@@ -108,7 +108,7 @@ class Creature(Component):
         return int(4 + (math.sqrt(self.agility) * (3 / 2)))
 
     def attack_position(self, x, y, level_map):
-        target = level_map.get_object_on_position(x, y)
+        target = level_map.get_blocking_object_on_position(x, y)
         if target:
             creature = target.get_component('Creature')
             if creature:
