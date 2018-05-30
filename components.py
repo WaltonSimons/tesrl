@@ -118,7 +118,8 @@ class Creature(Component):
                 for weapon in weapons:
                     damage += weapon.base_damage
 
-                hit_rate = ((self.agility / 6) + (self.luck / 10)) * (0.75 + 0.25 * self.fatigue / self.max_fatigue) * 10
+                hit_rate = ((self.agility / 6) + (self.luck / 10)) * (
+                0.75 + 0.25 * self.fatigue / self.max_fatigue) * 10
                 hit = random.random() < hit_rate / 100
                 if hit:
                     dealt_damage, evaded, dead = creature.get_attacked(damage)
@@ -160,6 +161,7 @@ class Creature(Component):
         evasion_rate = ((self.agility / 5) + (self.luck / 10)) * (0.75 + 0.5 * self.fatigue / self.max_fatigue)
         evaded = random.random() < evasion_rate / 100
         if not evaded:
+            damage = int(damage / (1 + self.get_armor_rating() / damage))
             damage = self.take_damage(damage)
             death = False
             if self.health <= 0:
@@ -169,6 +171,11 @@ class Creature(Component):
         else:
             return None, True, False
 
+    def get_armor_rating(self):
+        total_rating = 0
+        for equipment in self.equipment.equipped:
+            total_rating += equipment.armor_rating
+        return total_rating
 
     def take_damage(self, damage):
         self.health -= damage

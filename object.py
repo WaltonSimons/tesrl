@@ -3,6 +3,7 @@ import math
 from game import GAME
 from decorators import player_action
 
+
 class Object:
     def __init__(self, character, color=tcod.white, blocks=False):
         self.x = None
@@ -76,6 +77,7 @@ class Object:
             if hasattr(component, 'color'):
                 return component.color
         return self._color
+
 
 class TileType:
     def __init__(self, name, object_id, color, block, block_sight):

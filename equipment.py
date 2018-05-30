@@ -57,6 +57,7 @@ class Equipment(Item):
         # List of EquipmentSlots currently occupied
         self.taken_slots = None
         self.type = ItemType.EQUIPMENT
+        self.armor_rating = 0
 
     def get_slot_group_with_slot(self, slot):
         for slot_group in self.possible_slots:
