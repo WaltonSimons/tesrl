@@ -16,6 +16,7 @@ creatures:
     - - imperial
   equipment:
     right_hand: iron_dagger
+    body: rags
   inventory:
     gold: 10...100
   loot:

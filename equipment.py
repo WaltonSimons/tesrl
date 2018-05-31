@@ -36,6 +36,12 @@ class CreatureEquipment:
                    weapon is not None]
         return list(set(weapons))
 
+    def get_armor(self):
+        slots = self.get_slots_status()
+        weapons = [armor for slot, armor in slots.items() if
+                   slot not in [EquipmentSlots.RIGHT_HAND, EquipmentSlots.LEFT_HAND] and armor is not None]
+        return list(set(weapons))
+
 
 class Item:
     def __init__(self, name, object_id, stackable=False, quantity=1):
@@ -49,15 +55,13 @@ class Item:
         return self.name
 
 
-class Equipment(Item):
+class Equipable(Item):
     def __init__(self, name, object_id, possible_slots):
         super().__init__(name, object_id)
         # List of EquipmentSlots groups which can be simultaneously occupied by this piece of equipment
         self.possible_slots = possible_slots
         # List of EquipmentSlots currently occupied
         self.taken_slots = None
-        self.type = ItemType.EQUIPMENT
-        self.armor_rating = 0
 
     def get_slot_group_with_slot(self, slot):
         for slot_group in self.possible_slots:
@@ -71,7 +75,7 @@ class Equipment(Item):
         self.taken_slots = None
 
 
-class Weapon(Equipment):
+class Weapon(Equipable):
     def __init__(self, name, object_id, base_damage, two_handed=False):
         possible_slots = [
             [EquipmentSlots.LEFT_HAND],
@@ -102,5 +106,20 @@ class EquipmentSlots(Enum):
 
 class ItemType(Enum):
     ITEM = 'item'
-    EQUIPMENT = 'equipment'
+    ARMOR = 'armor'
     WEAPON = 'weapon'
+
+
+class Armor(Equipable):
+    def __init__(self, name, object_id, possible_slots, armor_type, armor_rating):
+        super().__init__(name, object_id, possible_slots)
+        self.armor_type = armor_type
+        self.armor_rating = armor_rating
+        self.type = ItemType.ARMOR
+
+
+class ArmorTypes(Enum):
+    LIGHT = 'light'
+    MEDIUM = 'medium'
+    HEAVY = 'heavy'
+    CLOTHING = 'clothing'

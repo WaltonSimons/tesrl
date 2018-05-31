@@ -173,7 +173,7 @@ class Creature(Component):
 
     def get_armor_rating(self):
         total_rating = 0
-        for equipment in self.equipment.equipped:
+        for equipment in self.equipment.get_armor():
             total_rating += equipment.armor_rating
         return total_rating
 

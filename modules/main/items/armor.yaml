@@ -1,0 +1,9 @@
+---
+armors:
+- name: Rags
+  id: rags
+  value: 0
+  armor_rating: 1
+  type: clothing
+  slots:
+    - body

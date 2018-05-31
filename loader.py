@@ -154,6 +154,21 @@ class Loader:
                     0
                 )
                 items[object_id] = item
+            for raw_armor in raw.get('armors', []):
+                object_id = raw_armor.get('id')
+                name = raw_armor.get('name')
+                value = raw_armor.get('value')
+                possible_slots = [[equipment.EquipmentSlots(slot_name)] for slot_name in raw_armor.get('slots')]
+                armor_type = equipment.ArmorTypes(raw_armor.get('type'))
+                armor_rating = raw_armor.get('armor_rating')
+                armor = equipment.Armor(
+                    name,
+                    object_id,
+                    possible_slots,
+                    armor_type,
+                    armor_rating,
+                )
+                items[object_id] = armor
         return items
 
     def load_rooms(self, path):
