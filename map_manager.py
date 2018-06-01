@@ -22,7 +22,8 @@ class MapManager:
     def place_creature(map, creature_id, x, y):
         creature = ASSETS.instantiate('creatures', creature_id)
         res = MapManager.place_object(map, creature, x, y)
-        res.add_component(AI())
+        ai = AI()
+        res.add_component(ai)
         return res
 
     @staticmethod
