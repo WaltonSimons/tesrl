@@ -37,7 +37,7 @@ class Object:
             self.get_component('Creature').attack_position(self.x + dx, self.y + dy, self.level_map)
 
     def draw(self):
-        if tcod.map_is_in_fov(GAME.current_map.fov_map, self.x, self.y):
+        if True: #tcod.map_is_in_fov(GAME.current_map.fov_map, self.x, self.y):
             tcod.console_set_default_foreground(0, self.color)
             tcod.console_put_char(0, self.x, self.y, self.char, tcod.BKGND_NONE)
 
@@ -60,6 +60,11 @@ class Object:
     def distance_to(self, other):
         dx = other.x - self.x
         dy = other.y - self.y
+        return math.sqrt(dx ** 2 + dy ** 2)
+
+    def distance_to_point(self, x, y):
+        dx = x - self.x
+        dy = y - self.y
         return math.sqrt(dx ** 2 + dy ** 2)
 
     @property
