@@ -47,7 +47,6 @@ class Drunkard(AIMode):
         self.object.move(x, y)
         fov = self.object.get_component('Creature').fov
         if AIUtils.get_closest_visible_object_in_range(self, self.parent.get_hostiles(), fov):
-            print('Switching to fighter')
             self.parent.current_mode = self.parent.fighter
             self.parent.fighter.set_target()
 
@@ -76,7 +75,6 @@ class MeleeFighter(AIMode):
                 if target_object:
                     self.object.get_component('Creature').attack_position(self.target[0], self.target[1], self.object.level_map)
                 else:
-                    print('Switching to wanderer')
                     self.parent.current_mode = self.parent.wanderer
 
 

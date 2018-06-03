@@ -70,11 +70,11 @@ class UIUtils:
     def render_bar(console, x, y, bar_width, value, max_value, color, bg_color):
         width = int(float(value) / max_value * bar_width)
         tcod.console_set_default_background(console, bg_color)
-        tcod.console_rect(console, x, y, bar_width, 1, False, tcod.BKGND_SET)
+        tcod.console_rect(console, x, y, bar_width, 1, True, tcod.BKGND_SET)
 
         tcod.console_set_default_background(console, color)
         if value > 0:
-            tcod.console_rect(console, x, y, width, 1, False, tcod.BKGND_SET)
+            tcod.console_rect(console, x, y, width, 1, True, tcod.BKGND_SET)
 
 
 class MessageLog:
